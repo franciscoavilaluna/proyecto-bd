@@ -8,19 +8,16 @@ if (!$es_admin) {
     exit;
 }
 
-// Cambiar estado activo/inactivo
 if (isset($_GET['toggle_activo'])) {
     $id = $_GET['toggle_activo'];
     $pdo->prepare("UPDATE reporte SET activo = NOT activo WHERE id_reporte = ?")->execute([$id]);
     echo "<div class='alert alert-info'>Estado del reporte cambiado</div>";
 }
 
-// Agregar validación manual (voto)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validar'])) {
     $id_reporte = $_POST['id_reporte'];
     $id_usuario = $_POST['id_usuario'];
     $estado = isset($_POST['estado']) ? 1 : 0;
-    // Evitar duplicados
     $check = $pdo->prepare("SELECT * FROM validacion WHERE id_reporte = ? AND id_usuario = ?");
     $check->execute([$id_reporte, $id_usuario]);
     if (!$check->fetch()) {
@@ -71,7 +68,6 @@ $usuarios = $pdo->query("SELECT id_usuario, nombre FROM usuario ORDER BY nombre"
     </tbody>
 </table>
 
-<!-- Modal para agregar validación -->
 <div class="modal fade" id="modalValidar" tabindex="-1">
     <div class="modal-dialog">
         <form method="POST" class="modal-content">
