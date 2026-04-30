@@ -22,7 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<!-- Ya no hace falta el div con el botón "Volver", porque header.php ya lo muestra -->
 <h3 class="fw-semibold mb-4"><i class="fas fa-exclamation-triangle me-2 text-warning"></i>Nuevo reporte</h3>
 
 <?php if ($mensaje): ?>
