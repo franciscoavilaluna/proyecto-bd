@@ -4,7 +4,6 @@ require_once 'conexion.php';
 
 if (!$es_admin) { echo "<div class='alert alert-danger'>Acceso denegado. No eres administrador.</div>"; require_once 'footer.php'; exit; }
 
-// Procesar acciones
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['agregar'])) {
         $nombre = $_POST['nombre'];
@@ -54,7 +53,6 @@ $lineas = $pdo->query("SELECT * FROM linea")->fetchAll();
     </tbody>
 </table>
 
-<!-- Modal para agregar/editar -->
 <div class="modal fade" id="modalEstacion" tabindex="-1">
     <div class="modal-dialog">
         <form method="POST" class="modal-content">
@@ -89,7 +87,7 @@ function editarEstacion(e) {
     document.getElementById('btnEditar').style.display = 'inline-block';
     new bootstrap.Modal(document.getElementById('modalEstacion')).show();
 }
-// Reiniciar modal cuando se cierra
+
 document.getElementById('modalEstacion').addEventListener('hidden.bs.modal', function () {
     document.getElementById('edit_id').value = '';
     document.getElementById('btnAgregar').style.display = 'inline-block';
