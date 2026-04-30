@@ -16,7 +16,6 @@ if (empty($identificador) || empty($password)) {
 }
 
 try {
-    // Buscar por email o por nombre
     $stmt = $pdo->prepare("SELECT * FROM usuario WHERE email = :id OR nombre = :id");
     $stmt->execute(['id' => $identificador]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
