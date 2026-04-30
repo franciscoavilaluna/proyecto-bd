@@ -8,7 +8,6 @@ if (!$es_admin) {
     exit;
 }
 
-// Procesar acciones
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['agregar'])) {
         $nombre = $_POST['nombre'];
@@ -54,7 +53,6 @@ $lineas = $pdo->query("SELECT * FROM linea ORDER BY id_linea")->fetchAll();
     </tbody>
 </table>
 
-<!-- Modal -->
 <div class="modal fade" id="modalLinea" tabindex="-1">
     <div class="modal-dialog">
         <form method="POST" class="modal-content">
