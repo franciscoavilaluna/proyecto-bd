@@ -86,8 +86,8 @@ $usuarios = $pdo->query("SELECT id_usuario, nombre FROM usuario ORDER BY nombre"
                 <div class="mb-2">
                     <label>Voto</label>
                     <select name="estado" class="form-select" required>
-                        <option value="1">Útil (👍)</option>
-                        <option value="0">No útil (👎)</option>
+                        <option value="1">Útil</option>
+                        <option value="0">No útil</option>
                     </select>
                 </div>
             </div>

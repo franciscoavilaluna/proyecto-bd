@@ -20,8 +20,8 @@ try {
     $stmt->execute(['id' => $identificador]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($user && $password === $user['password']) { // texto plano (puedes cambiar a password_verify)
-        $_SESSION['usuario'] = $user['nombre'];  // guardamos el nombre
+    if ($user && $password === $user['password']) {
+        $_SESSION['usuario'] = $user['nombre'];
         $_SESSION['user_id'] = $user['id_usuario'];
         $_SESSION['es_admin'] = (bool)$user['es_admin'];
         header("Location: index.php");

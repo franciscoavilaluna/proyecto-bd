@@ -122,5 +122,3 @@ DROP FOREIGN KEY validacion_ibfk_1,
 DROP FOREIGN KEY validacion_ibfk_2,
 ADD CONSTRAINT fk_validacion_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE,
 ADD CONSTRAINT fk_validacion_reporte FOREIGN KEY (id_reporte) REFERENCES reporte(id_reporte) ON DELETE CASCADE;
-
-show tables;

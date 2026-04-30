@@ -78,7 +78,7 @@ if (isset($_SESSION['usuario'])) {
                 </div>
                 <?php if (isset($_GET['error'])): ?>
                     <div class="alert alert-danger alert-dismissible fade show">
-                        <?= $_GET['error'] == '1' ? '❌ Usuario o contraseña incorrectos.' : '⚠️ Completa todos los campos.' ?>
+                        <?= $_GET['error'] == '1' ? 'Usuario o contraseña incorrectos.' : 'Completa todos los campos.' ?>
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 <?php endif; ?>

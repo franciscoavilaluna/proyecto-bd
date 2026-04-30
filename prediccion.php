@@ -90,11 +90,11 @@ $lista_estaciones = [
         echo "<p class='text-white'>Viaje analizado: <strong>" . htmlspecialchars($origen) . "</strong> → <strong>" . htmlspecialchars($destino) . "</strong></p>";
 
         if ($tiempo_real_L1 <= $tiempo_real_L9) {
-            echo "<div class='alert alert-success'><i class='fas fa-check-circle'></i> ✅ Te recomendamos la <strong>Línea 1</strong> ({$tiempo_real_L1} mins aprox).<br>";
-            echo "<span class='small'>⚠️ Línea 9: {$incidentes_l9} incidentes ({$tiempo_real_L9} mins).</span></div>";
+            echo "<div class='alert alert-success'><i class='fas fa-check-circle'></i> Te recomendamos la <strong>Línea 1</strong> ({$tiempo_real_L1} mins aprox).<br>";
+            echo "<span class='small'>Línea 9: {$incidentes_l9} incidentes ({$tiempo_real_L9} mins).</span></div>";
         } else {
-            echo "<div class='alert alert-success'><i class='fas fa-check-circle'></i> ✅ Te recomendamos la <strong>Línea 9</strong> ({$tiempo_real_L9} mins aprox).<br>";
-            echo "<span class='small'>🛑 Línea 1: {$incidentes_l1} incidentes ({$tiempo_real_L1} mins).</span></div>";
+            echo "<div class='alert alert-success'><i class='fas fa-check-circle'></i>Te recomendamos la <strong>Línea 9</strong> ({$tiempo_real_L9} mins aprox).<br>";
+            echo "<span class='small'>Línea 1: {$incidentes_l1} incidentes ({$tiempo_real_L1} mins).</span></div>";
         }
         echo '</div></div>';
     }
