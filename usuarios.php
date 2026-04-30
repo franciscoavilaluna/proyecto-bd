@@ -8,11 +8,9 @@ if (!$es_admin) {
     exit;
 }
 
-// Procesar acciones
 $mensaje = '';
 $error = '';
 
-// AGREGAR usuario
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar'])) {
     $nombre = trim($_POST['nombre']);
     $email = trim($_POST['email']);
@@ -33,7 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar'])) {
     }
 }
 
-// EDITAR usuario
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editar'])) {
     $id = (int)$_POST['id_usuario'];
     $nombre = trim($_POST['nombre']);
@@ -45,7 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editar'])) {
         $stmt = $pdo->prepare("UPDATE usuario SET nombre=?, email=?, puntos_reputacion=?, es_admin=? WHERE id_usuario=?");
         $stmt->execute([$nombre, $email, $puntos, $es_admin_val, $id]);
 
-        // Si se envió nueva contraseña, actualizarla
         if (!empty($_POST['password'])) {
             $stmt2 = $pdo->prepare("UPDATE usuario SET password=? WHERE id_usuario=?");
             $stmt2->execute([$_POST['password'], $id]);
@@ -56,16 +52,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editar'])) {
     }
 }
 
-// ELIMINAR usuario (con protección)
 if (isset($_GET['eliminar'])) {
     $id = (int)$_GET['eliminar'];
-    // No permitir eliminar el propio usuario logueado
     if ($id == $_SESSION['user_id']) {
         $error = "No puedes eliminarte a ti mismo.";
     } else {
         try {
-            // Con ON DELETE CASCADE configurado en BD, no necesitas borrar validaciones manualmente.
-            // Pero si aún no lo has hecho, puedes dejar esta línea comentada o ejecutarla como respaldo.
             // $pdo->prepare("DELETE FROM validacion WHERE id_usuario = ?")->execute([$id]);
             $stmt = $pdo->prepare("DELETE FROM usuario WHERE id_usuario = ?");
             $stmt->execute([$id]);
@@ -76,7 +68,6 @@ if (isset($_GET['eliminar'])) {
     }
 }
 
-// Obtener lista actualizada de usuarios
 $usuarios = $pdo->query("SELECT * FROM usuario ORDER BY id_usuario")->fetchAll();
 ?>
 
@@ -117,7 +108,6 @@ $usuarios = $pdo->query("SELECT * FROM usuario ORDER BY id_usuario")->fetchAll()
     </table>
 </div>
 
-<!-- Modal para agregar/editar (igual que antes) -->
 <div class="modal fade" id="modalUsuario" tabindex="-1">
     <div class="modal-dialog">
         <form method="POST" class="modal-content">
