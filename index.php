@@ -110,6 +110,7 @@ $reportes_recientes = $pdo->query("
         </div>
     </div>
 </div>
+
 <h4 class="mb-3"><i class="fas fa-cogs me-2"></i>Gestión operativa</h4>
 <div class="row g-4 mb-5">
     <?php if ($es_admin): ?>
@@ -136,65 +137,33 @@ $reportes_recientes = $pdo->query("
     </div>
     <div class="col-md-3">
         <div class="card-dashboard p-3 text-center h-100 shadow-sm">
-            <i class="fas fa-users fa-3x text-info mb-2"></i>
-            <h5>Usuarios</h5>
-            <a href="usuarios.php" class="btn btn-sm btn-outline-info mt-2">Gestionar</a>
+            <i class="fas fa-route fa-3x text-info mb-2"></i>
+            <h5>Mejor ruta</h5>
+            <a href="prediccion.php" class="btn btn-sm btn-outline-info mt-2">Consultar</a>
         </div>
     </div>
     <?php else: ?>
-    <div class="col-md-6">
+    <div class="col-md-4">
         <div class="card-dashboard p-3 text-center">
             <i class="fas fa-exclamation-triangle fa-3x text-warning mb-2"></i>
             <h5>Reportar incidente</h5>
             <a href="nuevo_reporte.php" class="btn btn-sm btn-outline-warning">Crear reporte</a>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
         <div class="card-dashboard p-3 text-center">
             <i class="fas fa-list fa-3x text-primary mb-2"></i>
             <h5>Ver reportes cercanos</h5>
             <a href="ver_reportes.php" class="btn btn-sm btn-outline-primary">Consultar</a>
         </div>
     </div>
-    <?php endif; ?>
-</div>
-
-<div class="card shadow-sm border-0 mt-4">
-    <div class="card-header fw-semibold">
-        <i class="fas fa-bell me-2"></i> Reportes recientes
-    </div>
-    <div class="card-body p-0">
-        <div class="table-responsive">
-            <table class="table table-hover mb-0">
-                <thead>
-                    <tr>
-                        <th>Estación</th>
-                        <th>Categoría</th>
-                        <th>Descripción</th>
-                        <th>Usuario</th>
-                        <th>Fecha</th>
-                    </tr>
-                </thead>
-                <tbody class="table-dark">
-                    <?php if (count($reportes_recientes) > 0): ?>
-                        <?php foreach ($reportes_recientes as $rep): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($rep['estacion']) ?></td>
-                            <td><?= htmlspecialchars($rep['categoria']) ?></td>
-                            <td><?= htmlspecialchars($rep['descripcion']) ?></td>
-                            <td><?= htmlspecialchars($rep['usuario']) ?></td>
-                            <td><?= date('d/m H:i', strtotime($rep['fecha_hora'])) ?></td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="5" class="text-center">No hay reportes activos</td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+    <div class="col-md-4">
+        <div class="card-dashboard p-3 text-center">
+            <i class="fas fa-route fa-3x text-info mb-2"></i>
+            <h5>Mejor ruta</h5>
+            <a href="prediccion.php" class="btn btn-sm btn-outline-info">Consultar</a>
         </div>
     </div>
+    <?php endif; ?>
 </div>
-
 <?php require_once 'footer.php'; ?>
