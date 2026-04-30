@@ -1,4 +1,4 @@
-</div> <!-- cierra container-flex -->
+</div>
 <footer>
     <i class="fas fa-subway me-1"></i> Metro-Waze · Sistema de apoyo operativo para Líneas 1 y 9 · CDMX
 </footer>
