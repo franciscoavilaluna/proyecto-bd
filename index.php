@@ -50,18 +50,11 @@ if ($recomendada) {
     $fluidez_clase = 'text-info';
 }
 
-// ======================================================
-// 3. ESTACIONES TOTALES Y DESGLOSE
-// ======================================================
 $total_estaciones = $pdo->query("SELECT COUNT(*) FROM estacion")->fetchColumn();
 
-// Estaciones por línea (suponiendo que los nombres son exactamente 'Línea 1' y 'Línea 9')
 $l1_count = $pdo->query("SELECT COUNT(*) FROM estacion e JOIN linea l ON e.id_linea = l.id_linea WHERE l.nombre = 'Línea 1'")->fetchColumn();
 $l9_count = $pdo->query("SELECT COUNT(*) FROM estacion e JOIN linea l ON e.id_linea = l.id_linea WHERE l.nombre = 'Línea 9'")->fetchColumn();
 
-// ======================================================
-// 4. REPORTES RECIENTES (últimos 5)
-// ======================================================
 $reportes_recientes = $pdo->query("
     SELECT r.*, u.nombre as usuario, e.nombre as estacion
     FROM reporte r
@@ -73,9 +66,7 @@ $reportes_recientes = $pdo->query("
 ")->fetchAll();
 ?>
 
-<!-- Dashboard dinámico -->
-<div class="row g-4 mb-5">
-    <!-- Tarjeta: Reportes activos -->
+<div class="row g-4 mb-5"
     <div class="col-md-4">
         <div class="card-dashboard p-3 shadow-sm">
             <div class="d-flex justify-content-between">
@@ -90,8 +81,6 @@ $reportes_recientes = $pdo->query("
             <div class="small text-muted">Incidentes reportados por usuarios</div>
         </div>
     </div>
-
-    <!-- Tarjeta: Línea recomendada -->
     <div class="col-md-4">
         <div class="card-dashboard p-3 shadow-sm">
             <div class="d-flex justify-content-between">
@@ -106,8 +95,6 @@ $reportes_recientes = $pdo->query("
             <div class="small text-muted">Basado en afluencia última hora</div>
         </div>
     </div>
-
-    <!-- Tarjeta: Estaciones totales -->
     <div class="col-md-4">
         <div class="card-dashboard p-3 shadow-sm">
             <div class="d-flex justify-content-between">
@@ -123,8 +110,6 @@ $reportes_recientes = $pdo->query("
         </div>
     </div>
 </div>
-
-<!-- Módulos de gestión (ya existentes, se mantienen igual) -->
 <h4 class="mb-3"><i class="fas fa-cogs me-2"></i>Gestión operativa</h4>
 <div class="row g-4 mb-5">
     <?php if ($es_admin): ?>
@@ -174,7 +159,6 @@ $reportes_recientes = $pdo->query("
     <?php endif; ?>
 </div>
 
-<!-- Tabla de reportes recientes (con datos reales) -->
 <div class="card shadow-sm border-0 mt-4">
     <div class="card-header fw-semibold">
         <i class="fas fa-bell me-2"></i> Reportes recientes
