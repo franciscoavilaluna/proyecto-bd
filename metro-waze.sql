@@ -55,22 +55,15 @@ CREATE TABLE validacion (
 
 SET FOREIGN_KEY_CHECKS = 1;
 
--- ======================================================
--- 3. DATOS DE PRUEBA (orden correcto)
--- ======================================================
-
--- 3.1 Usuarios
 INSERT INTO usuario (nombre, email, password, puntos_reputacion, es_admin) VALUES
 ('Admin Metro', 'admin@metrowaze.com', 'admin123', 100, TRUE),
 ('Juan Pérez', 'juan@mail.com', 'juan123', 25, FALSE),
 ('María López', 'maria@mail.com', 'maria123', 40, FALSE);
 
--- 3.2 Líneas (IDs explícitos 1 y 9 para coincidir con estaciones)
 INSERT INTO linea (id_linea, nombre) VALUES
 (1, 'Línea 1'),
 (9, 'Línea 9');
 
--- 3.3 Estaciones
 INSERT INTO estacion (nombre, id_linea, tiempo_espera_segundos) VALUES
 ('Observatorio', 1, 120), ('Tacubaya', 1, 150), ('Juanacatlán', 1, 90), ('Chapultepec', 1, 100),
 ('Sevilla', 1, 110), ('Insurgentes', 1, 130), ('Cuauhtémoc', 1, 140), ('Balderas', 1, 120),
@@ -81,12 +74,10 @@ INSERT INTO estacion (nombre, id_linea, tiempo_espera_segundos) VALUES
 ('Lázaro Cárdenas', 9, 130), ('Chabacano', 9, 150), ('Jamaica', 9, 140), ('Mixiuhca', 9, 120),
 ('Velódromo', 9, 110), ('Ciudad Deportiva', 9, 100), ('Puebla', 9, 90), ('Pantitlán', 9, 80);
 
--- 3.4 Logs de afluencia (un registro por estación, hora aleatoria)
 INSERT INTO log (id_estacion, hora_fecha, afluencia_promedio)
 SELECT e.id_estacion, NOW() - INTERVAL FLOOR(RAND()*5) HOUR, ROUND(50 + RAND()*200,2)
 FROM estacion e;
 
--- 3.5 Reportes de ejemplo (usando subconsultas para id_estacion)
 INSERT INTO reporte (id_usuario, id_estacion, categoria, descripcion, fecha_hora, activo)
 VALUES (
     2,
@@ -113,7 +104,6 @@ VALUES (
     TRUE
 );
 
--- 3.6 Validaciones (múltiples INSERTS independientes)
 INSERT INTO validacion (id_usuario, id_reporte, estado)
 SELECT 2, id_reporte, TRUE FROM reporte WHERE descripcion = 'Basura en el andén' LIMIT 1;
 
