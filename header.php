@@ -29,7 +29,6 @@ $page_title = $page_titles[$current_page] ?? 'Metro-Waze';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-    /* ----- SOLO MODO OSCURO (hardcodeado) ----- */
     body {
         background: #121826;
         color: #e2e8f0;
@@ -80,7 +79,7 @@ $page_title = $page_titles[$current_page] ?? 'Metro-Waze';
     .text-dark, .text-muted {
         color: #94a3b8 !important;
     }
-    /* ----- TABLAS (fuerza modo oscuro) ----- */
+
     .table, .table-hover, .table-bordered, .table-striped {
         background-color: #1e293b !important;
         color: #e2e8f0 !important;
@@ -99,7 +98,7 @@ $page_title = $page_titles[$current_page] ?? 'Metro-Waze';
         background-color: #334155 !important;
         color: white !important;
     }
-    /* Botones */
+
     .btn-outline-primary {
         color: #93c5fd;
         border-color: #3b82f6;
