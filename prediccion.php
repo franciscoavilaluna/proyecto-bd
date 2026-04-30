@@ -2,7 +2,7 @@
 require_once 'header.php';
 require_once 'conexion.php';
 
-// Lista de estaciones (podría venir de BD, pero la dejamos igual por simplicidad)
+// Lista de estaciones (puedes mantenerla hardcodeada o extraerla de la BD)
 $lista_estaciones = [
     'Balbuena', 'Balderas', 'Boulevard Puerto Aéreo', 'Candelaria',
     'Centro Médico', 'Chabacano', 'Chapultepec', 'Chilpancingo',
@@ -54,49 +54,54 @@ $lista_estaciones = [
 
     <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $origen   = $_POST['origen'] ?? '';
-        $destino  = $_POST['destino'] ?? '';
+        $origen   = trim($_POST['origen'] ?? '');
+        $destino  = trim($_POST['destino'] ?? '');
 
-        // Tiempos ideales (simulados)
-        $tiempo_ideal_L1 = 45;
-        $tiempo_ideal_L9 = 38;
-
-        // Estaciones de cada línea (hardcodeadas, podrían venir de BD)
-        $estaciones_L1 = "'Balbuena', 'Balderas', 'Boulevard Puerto Aéreo', 'Candelaria', 'Chapultepec', 'Cuauhtémoc', 'Gómez Farías', 'Insurgentes', 'Isabel la Católica', 'Juanacatlán', 'Merced', 'Moctezuma', 'Observatorio', 'Pantitlán', 'Pino Suárez', 'Salto del Agua', 'San Lázaro', 'Sevilla', 'Tacubaya', 'Zaragoza'";
-        $estaciones_L9 = "'Centro Médico', 'Chabacano', 'Chilpancingo', 'Ciudad Deportiva', 'Jamaica', 'Lázaro Cárdenas', 'Mixiuhca', 'Pantitlán', 'Patriotismo', 'Puebla', 'Tacubaya', 'Velódromo'";
-
-        // Contar incidentes activos en cada línea
-        $sql_l1 = "SELECT COUNT(*) as incidentes FROM reporte r
-                   JOIN estacion e ON r.id_estacion = e.id_estacion
-                   WHERE e.nombre IN ($estaciones_L1)
-                   AND r.categoria IN ('retraso', 'incidente')
-                   AND r.activo = 1";
-        $stmt_l1 = $pdo->query($sql_l1);
-        $incidentes_l1 = $stmt_l1->fetch(PDO::FETCH_ASSOC)['incidentes'];
-
-        $sql_l9 = "SELECT COUNT(*) as incidentes FROM reporte r
-                   JOIN estacion e ON r.id_estacion = e.id_estacion
-                   WHERE e.nombre IN ($estaciones_L9)
-                   AND r.categoria IN ('retraso', 'incidente')
-                   AND r.activo = 1";
-        $stmt_l9 = $pdo->query($sql_l9);
-        $incidentes_l9 = $stmt_l9->fetch(PDO::FETCH_ASSOC)['incidentes'];
-
-        $tiempo_real_L1 = $tiempo_ideal_L1 + ($incidentes_l1 * 12);
-        $tiempo_real_L9 = $tiempo_ideal_L9 + ($incidentes_l9 * 12);
-
-        echo '<div class="card mt-4 shadow-sm border-0"><div class="card-body">';
-        echo '<h4 class="text-warning mb-3"><i class="fas fa-chart-simple"></i> Resultado del análisis</h4>';
-        echo "<p class='text-white'>Viaje analizado: <strong>" . htmlspecialchars($origen) . "</strong> → <strong>" . htmlspecialchars($destino) . "</strong></p>";
-
-        if ($tiempo_real_L1 <= $tiempo_real_L9) {
-            echo "<div class='alert alert-success'><i class='fas fa-check-circle'></i> Te recomendamos la <strong>Línea 1</strong> ({$tiempo_real_L1} mins aprox).<br>";
-            echo "<span class='small'>Línea 9: {$incidentes_l9} incidentes ({$tiempo_real_L9} mins).</span></div>";
+        if (empty($origen) || empty($destino)) {
+            echo '<div class="alert alert-danger mt-4">Por favor selecciona origen y destino.</div>';
         } else {
-            echo "<div class='alert alert-success'><i class='fas fa-check-circle'></i>Te recomendamos la <strong>Línea 9</strong> ({$tiempo_real_L9} mins aprox).<br>";
-            echo "<span class='small'>Línea 1: {$incidentes_l1} incidentes ({$tiempo_real_L1} mins).</span></div>";
+            // Tiempos ideales (simulados)
+            $tiempo_ideal_L1 = 45;
+            $tiempo_ideal_L9 = 38;
+
+            // Contar incidentes activos en estaciones de la Línea 1 (id_linea = 1)
+            $sql_l1 = "SELECT COUNT(*) 
+                       FROM reporte r
+                       JOIN estacion e ON r.id_estacion = e.id_estacion
+                       WHERE e.id_linea = 1
+                         AND r.categoria IN ('Retrasos / Demoras', 'Mantenimiento', 'retraso', 'incidente', 'Limpieza', 'Seguridad')
+                         AND r.activo = 1";
+            $stmt_l1 = $pdo->query($sql_l1);
+            $incidentes_l1 = (int) $stmt_l1->fetchColumn();
+
+            // Contar incidentes activos en estaciones de la Línea 9 (id_linea = 9)
+            $sql_l9 = "SELECT COUNT(*) 
+                       FROM reporte r
+                       JOIN estacion e ON r.id_estacion = e.id_estacion
+                       WHERE e.id_linea = 9
+                         AND r.categoria IN ('Retrasos / Demoras', 'Mantenimiento', 'retraso', 'incidente', 'Limpieza', 'Seguridad')
+                         AND r.activo = 1";
+            $stmt_l9 = $pdo->query($sql_l9);
+            $incidentes_l9 = (int) $stmt_l9->fetchColumn();
+
+            // Calcular tiempos reales (cada incidente suma 12 minutos)
+            $tiempo_real_L1 = $tiempo_ideal_L1 + ($incidentes_l1 * 12);
+            $tiempo_real_L9 = $tiempo_ideal_L9 + ($incidentes_l9 * 12);
+
+            // Mostrar resultados
+            echo '<div class="card mt-4 shadow-sm border-0"><div class="card-body">';
+            echo '<h4 class="text-warning mb-3"><i class="fas fa-chart-simple"></i> Resultado del análisis</h4>';
+            echo '<p class="text-white">Viaje analizado: <strong>' . htmlspecialchars($origen) . '</strong> → <strong>' . htmlspecialchars($destino) . '</strong></p>';
+
+            if ($tiempo_real_L1 <= $tiempo_real_L9) {
+                echo "<div class='alert alert-success'><i class='fas fa-check-circle'></i> Te recomendamos la <strong>Línea 1</strong> ({$tiempo_real_L1} mins aprox).<br>";
+                echo "<span class='small'>Línea 9: {$incidentes_l9} incidentes ({$tiempo_real_L9} mins).</span></div>";
+            } else {
+                echo "<div class='alert alert-success'><i class='fas fa-check-circle'></i> Te recomendamos la <strong>Línea 9</strong> ({$tiempo_real_L9} mins aprox).<br>";
+                echo "<span class='small'>Línea 1: {$incidentes_l1} incidentes ({$tiempo_real_L1} mins).</span></div>";
+            }
+            echo '</div></div>';
         }
-        echo '</div></div>';
     }
     ?>
 </div>
