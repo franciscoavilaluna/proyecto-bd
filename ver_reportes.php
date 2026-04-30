@@ -2,7 +2,6 @@
 require_once 'header.php';
 require_once 'conexion.php';
 
-// Procesar voto
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['votar'])) {
     $id_reporte = $_POST['id_reporte'];
     $estado = (int)$_POST['estado'];
@@ -19,7 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['votar'])) {
     }
 }
 
-// Filtros
 $filtro_estacion = $_GET['estacion'] ?? '';
 $filtro_categoria = $_GET['categoria'] ?? '';
 
@@ -57,7 +55,6 @@ $categorias = $pdo->query("SELECT DISTINCT categoria FROM reporte ORDER BY categ
     <div class="alert alert-info alert-dismissible fade show"><?= $mensaje_voto ?><button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
 <?php endif; ?>
 
-<!-- Filtros -->
 <div class="card shadow-sm mb-4">
     <div class="card-body">
         <form method="GET" class="row g-3">
