@@ -8,7 +8,6 @@ if (!$es_admin) {
     exit;
 }
 
-// Agregar nuevo registro de afluencia
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar'])) {
     $id_estacion = $_POST['id_estacion'];
     $hora_fecha = $_POST['hora_fecha'];
@@ -18,7 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar'])) {
     echo "<div class='alert alert-success'>Registro agregado</div>";
 }
 
-// Eliminar
 if (isset($_GET['eliminar'])) {
     $id = $_GET['eliminar'];
     $pdo->prepare("DELETE FROM log WHERE id_historico = ?")->execute([$id]);
@@ -57,7 +55,6 @@ $estaciones = $pdo->query("SELECT id_estacion, nombre FROM estacion ORDER BY nom
     </tbody>
 </table>
 
-<!-- Modal agregar -->
 <div class="modal fade" id="modalLog" tabindex="-1">
     <div class="modal-dialog">
         <form method="POST" class="modal-content">
